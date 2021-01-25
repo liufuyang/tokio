@@ -1,7 +1,6 @@
 use crate::Stream;
 use async_stream::stream;
 use std::pin::Pin;
-use tokio::sync::watch::error::RecvError;
 use tokio::sync::watch::Receiver;
 
 use std::fmt;
@@ -41,6 +40,8 @@ impl<T> Stream for WatchStream<T> {
         Pin::new(&mut self.inner).poll_next(cx)
     }
 }
+
+impl<T> Unpin for WatchStream<T> {}
 
 impl<T> fmt::Debug for WatchStream<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
